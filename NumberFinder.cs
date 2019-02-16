@@ -7,37 +7,62 @@ namespace PadawansTask6
         public static int? NextBiggerThan(int number)
         {
             string s1 = number.ToString();
-            int[] mas1 = new int[s1.Length];
+            int col = 1;
+            for (int i = 1; i <= s1.Length; i++)
+            {
+                col *= i;
+            }
+            int[] perestanovki = new int[col];
+            int[] mas = new int[s1.Length];
             for (int i = 0; i < s1.Length; i++)
             {
-                mas1[i] = Convert.ToInt32(s1[i]) - 48;
+                mas[i] = Convert.ToInt32(s1[i]) - 48;
             }
-            Array.Sort(mas1);
-            string max = "";
-            for (int i = 0; i < s1.Length; i++)
+
+            for (int k = 0; k < col; k++)
             {
-                max += "9";
-            }
-            for (int i = number + 1; i < Convert.ToInt32(max); i++)
-            {
-                string str = i.ToString();
-                int[] mas2 = new int[str.Length];
-                for (int j = 0; j < str.Length; j++)
+                int I = 0;
+                int J = 0;
+                for (int i = 0; i < mas.Length - 1; i++)
                 {
-                    mas2[j] = Convert.ToInt32(str[j]) - 48;
-                }
-                Array.Sort(mas2);
-                bool flag = true;
-                for (int j = 0; j < str.Length; j++)
-                {
-                    if (mas1[j] != mas2[j])
+                    if (mas[i] < mas[i + 1])
                     {
-                        flag = false;
-                        break;
+                        I = i;
+                        J = i + 1;
                     }
                 }
-                if (flag)
-                    return i;
+                int a = mas[I];
+                mas[I] = mas[J];
+                mas[J] = a;
+                int[] mas1 = new int[0];
+                int j = 0;
+                for (int i = J; i < mas.Length; i++)
+                {
+                    Array.Resize(ref mas1, mas1.Length + 1);
+                    mas1[j] = mas[i];
+                    j++;
+                }
+                Array.Reverse(mas1);
+                j = 0;
+                for (int i = J; i < mas.Length; i++)
+                {
+                    mas[i] = mas1[j];
+                    j++;
+                }
+                string str = "";
+                for (int i = 0; i < mas.Length; i++)
+                {
+                    str += mas[i].ToString();
+                }
+                perestanovki[k] = Convert.ToInt32(str);
+            }
+            Array.Sort(perestanovki);
+            for (int i = 0; i < perestanovki.Length; i++)
+            {
+                if (perestanovki[i] > number)
+                {
+                    return perestanovki[i];
+                }
             }
             return null;
         }
