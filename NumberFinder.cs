@@ -6,6 +6,14 @@ namespace PadawansTask6
     {
         public static int? NextBiggerThan(int number)
         {
+            if (number < 0 || number == int.MinValue)
+            {
+                throw new ArgumentException();
+            }
+            if (number == int.MaxValue)
+            {
+                return null;
+            }
             string s1 = number.ToString();
             int col = 1;
             for (int i = 1; i <= s1.Length; i++)
@@ -29,6 +37,24 @@ namespace PadawansTask6
                     {
                         I = i;
                         J = i + 1;
+                    }
+                }
+                int[,] mas_dop = new int[mas.Length, 2];
+                for (int i = I + 1; i < mas.Length; i++)
+                {
+                    if (mas[i] > mas[I])
+                    {
+                        mas_dop[i, 0] = mas[i];
+                        mas_dop[i, 1] = i;
+                    }
+                }
+                int min = 10;
+                for (int i = 0; i < mas.Length; i++)
+                {
+                    if (mas_dop[i, 0] < min && mas_dop[i, 1] != 0)
+                    {
+                        min = mas_dop[i, 0];
+                        J = mas_dop[i, 1];
                     }
                 }
                 int a = mas[I];
